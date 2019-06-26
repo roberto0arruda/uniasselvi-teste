@@ -11,7 +11,7 @@ Implementar uma aplicação Web utilizando o framework PHP de seu conhecimento (
 Criar uma aplicação de cadastro de pedidos de compra, a partir de uma modelagem inicial, com as seguintes funcionalidades:
 
 - [x] CRUD Clientes.
-- [ ] CRUD Produtos.
+- [x] CRUD Produtos.
 - [ ] CRUD Pedidos.
     - [ ] status **_(Em Aberto, Pago ou Cancelado)_**.
 ##### Cada CRUD:
