@@ -1,31 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>cliente cadastrar</title>
-</head>
-<body>
-    <h1>cadastrar cliente</h1>
+@extends('adminlte::page')
 
-    <form action="{{route('clientes.store')}}" method="post">
-        {!! csrf_field() !!}
-        <div>
-            <label for="nome">Nome: </label>
-            <input type="text" name="nome" id="nome">
-        </div>
-        <div>
-            <label for="cpf">Cpf: </label>
-            <input type="text" name="cpf" id="cpf">
-        </div>
-        <div>
-            <label for="email">Email: </label>
-            <input type="text" name="email" id="email">
-        </div>
-        <div>
-            <button type="submit">Cadastrar</button>
-        </div>
-    </form>
-</body>
-</html>
+@section('title', 'cliente cadastrar')
+
+@section('content_header')
+<a href="{{route('clientes.index')}}">
+    <button type="button" class="btn btn-warning btn-sm">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+    </button>
+</a>
+<ol class="breadcrumb">
+    <li><a href="">Dashboard</a></li>
+    <li><a href="">Cliente</a></li>
+    <li><a href="">editar</a></li>
+</ol>
+@stop
+
+@section('content')
+<div class="panel panel-warning">
+    <div class="panel-heading" style="text-align: center">cadastrar cliente</div>
+
+    <div class="panel-body table-responsive">
+        @include('includes.alerts')
+
+        <form action="{{route('clientes.store')}}" method="post" enctype="multipart/form-data">
+            {!! csrf_field() !!}
+
+            @include('cliente.form', ['formMode' => 'create'])
+
+        </form>
+    </div>
+</div>
+@stop
+
+@section('js')
+<script>
+    $('#cpf').mask('999.999.999-99');
+</script>
+@stop

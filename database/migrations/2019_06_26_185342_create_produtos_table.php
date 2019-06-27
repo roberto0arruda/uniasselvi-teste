@@ -16,7 +16,7 @@ class CreateProdutosTable extends Migration
         Schema::create('produtos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('codbarras', 20)->unique();
-            $table->string('nome', 100);
+            $table->string('nome', 100)->unique();
             $table->float('valor', 8, 2);
             $table->timestamps();
             $table->softDeletes();

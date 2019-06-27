@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Produto;
+use App\Http\Requests\ProdutoValidationFormRequest;
 
 class ProdutoController extends Controller
 {
@@ -35,7 +36,7 @@ class ProdutoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProdutoValidationFormRequest $request)
     {
         $dataForm = $request->except('_token');
 
@@ -78,7 +79,7 @@ class ProdutoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProdutoValidationFormRequest $request, $id)
     {
         $dataForm = $request->input();
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cliente;
+use App\Http\Requests\ClienteValidationFormRequest;
 
 class ClienteController extends Controller
 {
@@ -35,9 +36,10 @@ class ClienteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClienteValidationFormRequest $request)
     {
         $dataForm = $request->except('_token');
+        $dataForm['cpf'] = preg_replace("/[^0-9]/", "", $dataForm['cpf']);
 
         $cliente = Cliente::create($dataForm);
 
@@ -55,7 +57,9 @@ class ClienteController extends Controller
      */
     public function show($id)
     {
-        //
+        $cliente = Cliente::where('id', $id)->with('pedidos')->first();
+
+        return view('cliente.show', compact('cliente'));
     }
 
     /**
@@ -78,9 +82,10 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ClienteValidationFormRequest $request, $id)
     {
         $dataForm = $request->input();
+        $dataForm['cpf'] = preg_replace("/[^0-9]/", "", $dataForm['cpf']);
 
         $cliente = Cliente::find($id);
         $update = $cliente->update($dataForm);

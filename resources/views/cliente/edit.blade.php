@@ -1,32 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>cliente editar</title>
-</head>
-<body>
-    <h1>editar cliente</h1>
+@extends('adminlte::page')
 
-    <form action="{{route('clientes.update', $cliente->id)}}" method="post">
-        {!! csrf_field() !!}
-        {!! method_field('PUT') !!}
-        <div>
-            <label for="nome">Nome: </label>
-            <input type="text" name="nome" id="nome" value="{{$cliente->nome}}">
-        </div>
-        <div>
-            <label for="cpf">Cpf: </label>
-            <input type="text" name="cpf" id="cpf" value="{{$cliente->cpf}}">
-        </div>
-        <div>
-            <label for="email">Email: </label>
-            <input type="text" name="email" id="email" value="{{$cliente->email}}">
-        </div>
-        <div>
-            <button type="submit">Atualizar</button>
-        </div>
-    </form>
-</body>
-</html>
+@section('title', 'cliente editar')
+
+@section('content_header')
+<a href="{{route('clientes.index')}}">
+    <button type="button" class="btn btn-warning btn-sm">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+    </button>
+</a>
+<ol class="breadcrumb">
+    <li><a href="">Dashboard</a></li>
+    <li><a href="">Cliente</a></li>
+    <li><a href="">Editar</a></li>
+</ol>
+@stop
+@section('content')
+<div class="panel panel-warning">
+    <div class="panel-heading" style="text-align: center">editar cliente</div>
+
+    <div class="panel-body table-responsive">
+        @include('includes.alerts')
+
+        <form action="{{route('clientes.update', $cliente->id)}}" method="post">
+            {!! csrf_field() !!}
+            {!! method_field('PUT') !!}
+
+            @include('cliente.form', ['formMode' => 'update'])
+
+        </form>
+    </div>
+</div>
+@stop
+
+@section('js')
+<script>
+    $('#cpf').mask('999.999.999-99');
+</script>
+@stop

@@ -1,35 +1,17 @@
-html,
-body {
-    background-color: #fff;
-    color: #636b6f;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 200;
-    height: 100vh;
-    margin: 0;
-}
-
-.full-height {
-    height: 100vh;
-}
-
-.flex-center {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-}
-
-.position-ref {
-    position: relative;
-}
-
-.top-right {
-    position: absolute;
-    right: 10px;
-    top: 18px;
-}
-
 .content {
+    background-color: #ffffff;
+    margin-top: auto;
+    margin-bottom: auto;
     text-align: center;
+}
+
+.content > div.links {
+    margin: 0;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
 }
 
 .title {
@@ -48,4 +30,19 @@ body {
 
 .m-b-md {
     margin-bottom: 30px;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #FFD700;
+    color: white;
+    text-align: center;
+}
+
+.footer>.container {
+    padding-right: 15px;
+    padding-left: 15px;
 }
