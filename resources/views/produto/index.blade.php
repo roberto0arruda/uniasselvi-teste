@@ -41,7 +41,7 @@
                     <td>{{$produto->id}}</td>
                     <td>{{$produto->codbarras}}</td>
                     <td>{{$produto->nome}}</td>
-                    <td>R$ {{ number_format($produto->valor, 2)}}</td>
+                    <td>R$ {{ number_format($produto->valor, 2, '.', '.')}}</td>
                 </tr>
                 @endforeach
             </tbody>

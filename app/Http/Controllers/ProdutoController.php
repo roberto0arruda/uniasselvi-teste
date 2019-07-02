@@ -9,13 +9,29 @@ use App\Http\Requests\ProdutoValidationFormRequest;
 class ProdutoController extends Controller
 {
     /**
+     * Repository instance
+     */
+    private $produtos;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param  produto  $produtos
+     * @return void
+     */
+    public function __construct(produto $produtos)
+    {
+        $this->produtos = $produtos;
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $produtos = Produto::all();
+        $produtos = $this->produtos->all();
 
         return view('produto.index', compact('produtos'));
     }
@@ -40,7 +56,7 @@ class ProdutoController extends Controller
     {
         $dataForm = $request->except('_token');
 
-        $produto = Produto::create($dataForm);
+        $produto = $this->produtos->create($dataForm);
 
         if($produto)
             return redirect()->route('produtos.index');
@@ -67,7 +83,7 @@ class ProdutoController extends Controller
      */
     public function edit($id)
     {
-        $produto = Produto::find($id);
+        $produto = $this->produtos->find($id);
 
         return view('produto.edit', compact('produto'));
     }
@@ -83,7 +99,7 @@ class ProdutoController extends Controller
     {
         $dataForm = $request->input();
 
-        $produto = Produto::find($id);
+        $produto = $this->produtos->find($id);
         $update = $produto->update($dataForm);
 
         if($update)
@@ -100,7 +116,7 @@ class ProdutoController extends Controller
      */
     public function destroy($id)
     {
-        $delete = Produto::destroy($id);
+        $delete = $this->produtos->destroy($id);
 
         if($delete)
             return redirect()->route('produtos.index');

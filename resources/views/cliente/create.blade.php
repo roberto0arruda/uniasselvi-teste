@@ -11,7 +11,7 @@
 <ol class="breadcrumb">
     <li><a href="">Dashboard</a></li>
     <li><a href="">Cliente</a></li>
-    <li><a href="">editar</a></li>
+    <li><a href="">Cadastrar</a></li>
 </ol>
 @stop
 

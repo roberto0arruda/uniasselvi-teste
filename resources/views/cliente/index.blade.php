@@ -29,19 +29,33 @@
             </thead>
             <tbody>
                 @forelse ($clientes as $cliente)
-                <tr data-entry-id="{{ $cliente->id }}">
+                <tr data-entry-id="{{ $cliente->id }}" @if($cliente->deleted_at) class="danger" title="Cliente Bloqueado" @endif>
                     <td class=""><div class="text-center"><div class="btn-group">
-                        <a href="{{route('clientes.edit', $cliente->id)}}" class="tip btn btn-info btn-xs" title="Editar"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                        <a href="{{route('clientes.show', $cliente->id)}}" class="tip btn btn-warning btn-xs" title="Detalhes"><i class="fa fa-file-text" aria-hidden="true"></i></a>
-                        <form action="{{route('clientes.destroy', $cliente->id)}}" method="POST" onsubmit="return confirm('Tem Certeza?');" style="display:inline">
+                        <a href="{{route('clientes.edit', $cliente->id)}}" class="tip btn btn-info btn-xs" title="Editar"><i
+                            class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <a href="{{route('clientes.show', $cliente->id)}}" class="tip btn btn-warning btn-xs"
+                            title="Detalhes"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+
+                        @if ($cliente->deleted_at)
+                        <form action="{{route('clientes.restore', $cliente->id)}}" method="POST"
+                            onsubmit="return confirm('DESbloquear?');" style="display:inline">
+                            {!! csrf_field() !!}
+                            <button type="submit" class="tip btn btn-info btn-xs" title="DESbloquear"><i class="fa fa-unlock"
+                                aria-hidden="true"></i></button>
+                        </form>
+                        @else
+                        <form action="{{route('clientes.destroy', $cliente->id)}}" method="POST"
+                            onsubmit="return confirm('Bloquear?');" style="display:inline">
                             {!! csrf_field() !!}
                             {!! method_field('DELETE') !!}
-                            <button type="submit" class="tip btn btn-danger btn-xs" title="Deletar"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                        </form></div></div>
-                    </td>
+                            <button type="submit" class="tip btn btn-danger btn-xs" title="BLoquear"><i class="fa fa-lock"
+                                aria-hidden="true"></i></button>
+                        </form>
+                        @endif
+                    </div></div></td>
                     <td>{{$cliente->id}}</td>
                     <td>{{$cliente->nome}}</td>
-                    <td>{{setMaskCpf($cliente->cpf, '###.###.###-##')}}</td>
+                    <td>{{$cliente->cpf}}</td>
                     <td>{{$cliente->email}}</td>
                 </tr>
                 @empty

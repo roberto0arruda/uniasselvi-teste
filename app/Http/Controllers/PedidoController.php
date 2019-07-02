@@ -10,16 +10,33 @@ use App\Models\Produto;
 class PedidoController extends Controller
 {
     /**
+     * Repository instance
+     */
+    private $pedidos;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param  pedido  $pedidos
+     * @return void
+     */
+    public function __construct(pedido $pedidos)
+    {
+        $this->pedidos = $pedidos;
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $pedidos = Pedido::all();
+        $pedidos = $this->pedidos->withTrashed()->get();
         $clientes = Cliente::all();
+        $produtos = Produto::All();
 
-        return view('pedido.index', compact('pedidos', 'clientes'));
+        return view('pedido.index', compact('pedidos', 'clientes', 'produtos'));
     }
 
     /**
@@ -43,11 +60,12 @@ class PedidoController extends Controller
     public function store(Request $request)
     {
         $dataForm = [
-            'cliente_id' => $request->get('cliente') ? $request->get('cliente') : null,
-            'status' => 'A'
+            'cliente_id' => $request->input('cliente_id'),
+            'status'     => 'A',
         ];
 
-        $pedido = Pedido::create($dataForm);
+        $pedido = $this->pedidos->create($dataForm);
+        $pedido->produtos()->attach($request->input('produtos'));
 
         if($pedido)
             return redirect()->route('pedidos.edit', $pedido->id);
@@ -63,7 +81,10 @@ class PedidoController extends Controller
      */
     public function show($id)
     {
-        //
+        $pedido = $this->pedidos->where('id', $id)->withTrashed()->with(['cliente','produtos'])->first();
+        $produtos = Produto::all();
+
+        return view('pedido.show', compact('pedido', 'produtos'));
     }
 
     /**
@@ -74,9 +95,10 @@ class PedidoController extends Controller
      */
     public function edit($id)
     {
-        $pedido = Pedido::where('id', $id)->with('cliente')->with('produtos')->first();
+        $pedido = $this->pedidos->where('id', $id)->withTrashed()->with(['cliente','produtos'])->first();
+        $produtos = Produto::all();
 
-        return view('pedido.edit', compact('pedido'));
+        return view('pedido.edit', compact('pedido', 'produtos'));
     }
 
     /**
@@ -88,7 +110,21 @@ class PedidoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $pedido = $this->pedidos->find($id);
+
+        if (array_key_exists('produto_id', $request->all())) {
+            $pedido->produtos()->detach($request->input('produto_id')); // remover produto
+        } else {
+            $pedido->produtos()->attach($request->input('produtos')); // inserir produtos
+        }
+
+        if ($request->input('desconto'))
+            $pedido->update(['desconto' => $request->input('desconto')]);
+
+        if ($request->input('receber'))
+            $pedido->update(['status' => 'P']);
+
+        return redirect()->route('pedidos.edit', $id);
     }
 
     /**
@@ -99,7 +135,9 @@ class PedidoController extends Controller
      */
     public function destroy($id)
     {
-        $delete = Pedido::destroy($id);
+        $pedido = $this->pedidos->findOrFail($id);
+        $pedido->update(['status'=>'C']);
+        $delete = $pedido->delete();
 
         if($delete)
             return redirect()->route('pedidos.index');

@@ -54,11 +54,11 @@
                     </td>
                     <td>{{$pedido->id}}</td>
                     <td>{{$pedido->status}}</td>
-                    <td>{{$pedido->vlr_bruto}}</td>
+                    <td>R$ {{ number_format($pedido->vlr_bruto, 2, '.', '.') }}</td>
                     <td>{{$pedido->created_at}}</td>
                 </tr>
                 @empty
-                    
+
                 @endforelse
             </tbody>
         </table>

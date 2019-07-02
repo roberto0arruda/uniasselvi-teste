@@ -25,7 +25,7 @@ class ProdutoValidationFormRequest extends FormRequest
     {
         return [
             'codbarras' => 'required|min:5|unique:produtos,codbarras',
-            'nome'      => 'required|min:7',
+            'nome'      => 'required|min:3|unique:produtos,nome',
             'valor'     => 'required|numeric',
         ];
     }

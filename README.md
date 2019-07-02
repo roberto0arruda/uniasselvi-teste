@@ -13,7 +13,7 @@ Criar uma aplicação de cadastro de pedidos de compra, a partir de uma modelage
 - [x] CRUD Clientes.
 - [x] CRUD Produtos.
 - [x] CRUD Pedidos.
-    - [ ] status **_(Em Aberto, Pago ou Cancelado)_**.
+    - [x] status **_(Em Aberto, Pago ou Cancelado)_**.
 ##### Cada CRUD:
 - [x] deve ser filtrável e ordenável por qualquer campo, e possuir paginação de 20 itens.
 - [x] deve possuir formulários para criação e atualização de seus itens.
@@ -26,9 +26,9 @@ Criar uma aplicação de cadastro de pedidos de compra, a partir de uma modelage
 - [x] Implementar autenticação de usuário na aplicação.
 - [x] Permitir que o usuário mude o número de itens por página.
 - [ ] Permitir deleção em massa de itens nos CRUDs.
-- [ ] Implementar aplicação de desconto em alguns pedidos de compra.
+- [x] Implementar aplicação de desconto em alguns pedidos de compra.
 - [x] Implementar a camada de Front-End utilizando a biblioteca javascript Bootstrap e ser responsiva.
-- [ ] API Rest JSON para todos os CRUDS listados acima.
+- [x] API Rest JSON para todos os CRUDS listados acima.
 
 ## Entrega
 

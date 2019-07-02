@@ -9,13 +9,29 @@ use App\Http\Requests\ClienteValidationFormRequest;
 class ClienteController extends Controller
 {
     /**
+     * Repository instance
+     */
+    private $clientes;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param  cliente  $clientes
+     * @return void
+     */
+    public function __construct(cliente $clientes)
+    {
+        $this->clientes = $clientes;
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $clientes = Cliente::all();
+        $clientes = $this->clientes->withTrashed()->get();
 
         return view('cliente.index', compact('clientes'));
     }
@@ -41,7 +57,7 @@ class ClienteController extends Controller
         $dataForm = $request->except('_token');
         $dataForm['cpf'] = preg_replace("/[^0-9]/", "", $dataForm['cpf']);
 
-        $cliente = Cliente::create($dataForm);
+        $cliente = $this->clientes->create($dataForm);
 
         if($cliente)
             return redirect()->route('clientes.index');
@@ -57,7 +73,7 @@ class ClienteController extends Controller
      */
     public function show($id)
     {
-        $cliente = Cliente::where('id', $id)->with('pedidos')->first();
+        $cliente = $this->clientes->where('id', $id)->with('pedidos')->first();
 
         return view('cliente.show', compact('cliente'));
     }
@@ -70,7 +86,7 @@ class ClienteController extends Controller
      */
     public function edit($id)
     {
-        $cliente = Cliente::find($id);
+        $cliente = $this->clientes->find($id);
 
         return view('cliente.edit', compact('cliente'));
     }
@@ -87,7 +103,7 @@ class ClienteController extends Controller
         $dataForm = $request->input();
         $dataForm['cpf'] = preg_replace("/[^0-9]/", "", $dataForm['cpf']);
 
-        $cliente = Cliente::find($id);
+        $cliente = $this->clientes->find($id);
         $update = $cliente->update($dataForm);
 
         if($update)
@@ -104,11 +120,25 @@ class ClienteController extends Controller
      */
     public function destroy($id)
     {
-        $delete = Cliente::destroy($id);
+        $delete = $this->clientes->destroy($id);
 
         if($delete)
             return redirect()->route('clientes.index');
         else
             return "erro ao deletar";
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function restore($id)
+    {
+        $cliente = $this->clientes->onlyTrashed()->findOrFail($id);
+        $cliente->restore();
+
+        return redirect()->route('clientes.index');
     }
 }
