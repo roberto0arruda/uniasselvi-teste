@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'logo' => '<b>~</b>UNIASSELVI',
+    'logo' => env('APP_LOGO'),
 
     'logo_mini' => '<b>N</b>EAD',
 
