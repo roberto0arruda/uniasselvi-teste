@@ -27,7 +27,7 @@
         <div class="media-body">
             <h4 class="media-heading">Nome: <b>{{ $cliente->nome }}</b></h4>
             <h4>E-mail: <b>{{ $cliente->email }}</b></h4>
-            <h4>CPF: <b>{{ setMaskCpf($cliente->cpf, '###.###.###-##' ) }}</b></h4>
+            <h4>CPF: <b>{{ $cliente->cpf }}</b></h4>
         </div>
     </div>
 
